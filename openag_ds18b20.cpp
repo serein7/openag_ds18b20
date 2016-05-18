@@ -1,25 +1,26 @@
 /** 
- *  \file openag-ds18b20.cpp
- *  \brief Sensor module for water temperature. 
- *  \details See openag-ds18b20.h for details.
- *  \author Jake Rye
+ *  \file openag_ds18b20.cpp
+ *  \brief Sensor module for temperature. 
  */
-#include "openag-ds18b20.h"
+#include "openag_ds18b20.h"
 
 Ds18b20::Ds18b20(String temperature_id, int temperature_pin) {
   _temperature_id = temperature_id;
   _temperature_pin = temperature_pin;
 }
 
+
 void Ds18b20::begin(void) {
   // Construct Objects
   _ds = new OneWire(_temperature_pin);
+  getTemperature();
 }
+
 
 String Ds18b20::get(String id) {
   String message = "";
   if (id == _temperature_id) {
-    getSensorData();
+    getTemperature();
     message = id + ":" + String(temperature, 1);
   }
   return message;
@@ -31,14 +32,7 @@ String Ds18b20::set(String id, String value) {
 }
 
 
-void Ds18b20::getSensorData(void) {
-  // Update Temperature
-  temperature = getTemperature();
-}
-
-
-float Ds18b20::getTemperature(void) {
-  float temperature_value;
+void Ds18b20::getTemperature(void) {
   // Read Temperature
   byte present = _ds->reset();
   _ds->select(_temperature_address);    
@@ -50,7 +44,7 @@ float Ds18b20::getTemperature(void) {
   byte MSB = _temperature_data[1];
   byte LSB = _temperature_data[0];        
   float temp_read = ((MSB << 8) | LSB); // using two's compliment
-  temperature_value = temp_read / 16;
+  temperature = temp_read / 16;
 
   // Start Conversion For Next Temperature Reading
   if (!_ds->search(_temperature_address)) {
@@ -66,9 +60,6 @@ float Ds18b20::getTemperature(void) {
   _ds->reset();
   _ds->select(_temperature_address);
   _ds->write(0x44,1); // start conversion, with parasite power on at the end
-
-  // Return Temperature
-  return temperature_value;
 }
 
 float Ds18b20::avergeArray(int* arr, int number){

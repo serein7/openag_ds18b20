@@ -1,7 +1,6 @@
 /** 
- *  \file openag-s18b20.h
- *  \brief Sensor module for water temperature. 
- *  \author Jake Rye
+ *  \file openag_ds18b20.h
+ *  \brief Sensor module for temperature. 
  */
 #ifndef DS18B20_H
 #define DS18B20_H
@@ -15,34 +14,14 @@
 #include <OneWire.h>
 
 /**
- * \brief Sensor module for water temperature
+ * \brief Sensor module for temperature
  */
 class Ds18b20 {
   public:
     // Public Functions
-    /*
-     * \brief Class constructor.
-     */
     Ds18b20(String temperature_id, int temperature_pin);
-
-    /**
-     * \brief Called once to setup module.
-     * Declares objects, configures initial state, sets configuration & calibration parameters.
-     */
     void begin(void);
-    
-    /**
-     * \brief Returns JSON string with module data.
-     * Module data: temperature
-     * Data: "<instruction_code> <instruction_id> <value>".
-     * Example: "SWTM 1 1", 
-     */
     String get(String id);
-
-    /**
-     * \brief Reserved to passing data string to object
-     * Currently unused. Exists to comply with SAModule interface.
-     */
     String set(String id, String value);
 
     // Public Variables
@@ -50,8 +29,7 @@ class Ds18b20 {
     
   private:
     // Private Functions
-    void getSensorData(void);
-    float getTemperature(void);
+    void getTemperature(void);
     float avergeArray(int* arr, int number);
     void startTempertureConversion(void);
     float TempProcess(bool ch);
@@ -65,7 +43,7 @@ class Ds18b20 {
     OneWire *_ds;
 };
 
-#endif // DS18B20_H_
+#endif
 
 
 
