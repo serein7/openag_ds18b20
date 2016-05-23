@@ -1,5 +1,5 @@
 #include <openag_ds18b20.h>
-Ds18b20 ds18b20("water_temperature", 22);
+Ds18b20 ds18b20("ds18b20_1", 22);
 
 void setup() {
   Serial.begin(9600);
@@ -7,6 +7,6 @@ void setup() {
 }
 
 void loop() {
-  Serial.println(ds18b20.get("water_temperature"));
+  Serial.println(ds18b20.get("temperature"));
   delay(1000);
 }
