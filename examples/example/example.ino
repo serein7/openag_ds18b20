@@ -1,5 +1,6 @@
 #include <openag_ds18b20.h>
-Ds18b20 ds18b20("ds18b20_1", 22);
+String parameters[] = {String("22")};
+Ds18b20 ds18b20("ds18b20_1", parameters);
 
 void setup() {
   Serial.begin(9600);

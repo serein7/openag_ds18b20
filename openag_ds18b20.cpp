@@ -4,12 +4,15 @@
  */
 #include "openag_ds18b20.h"
 
-Ds18b20::Ds18b20(String id, int temperature_pin) {
+Ds18b20::Ds18b20(String id, String* parameters) : Peripheral(id, parameters){
   this->id = id;
-  _temperature_pin = temperature_pin;
+  _temperature_pin = parameters[0].toInt();
 }
 
+Ds18b20::~Ds18b20(){}
+
 void Ds18b20::begin() {
+
   _ds = new OneWire(_temperature_pin); // enable OneWire port
   _time_of_last_reading = 0; // initialize time of last reading
   _temperature_message = getErrorMessage(TEMPERATURE_KEY); // initialize message

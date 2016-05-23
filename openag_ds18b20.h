@@ -12,6 +12,7 @@
 #endif
 
 #include <OneWire.h>
+#include <openag_peripheral.h>
 
 #define TEMPERATURE_KEY "temperature"
 #define MIN_UPDATE_INTERVAL 1000
@@ -19,10 +20,11 @@
 /**
  * \brief Sensor module for temperature
  */
-class Ds18b20 {
+class Ds18b20 : public Peripheral {
   public:
     // Public Functions
-    Ds18b20(String id, int temperature_pin);
+    Ds18b20(String id, String* parameters);
+    ~Ds18b20();
     void begin();
     String get(String key);
     String set(String key, String value);
