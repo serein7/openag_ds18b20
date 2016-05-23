@@ -1,0 +1,9 @@
+[submodule "examples/lib/openag_ds18b20"]
+	path = examples/lib/openag_ds18b20
+	url = https://github.com/OpenAgInitiative/openag_ds18b20.git
+[submodule "examples/lib/openag_peripheral"]
+	path = examples/lib/openag_peripheral
+	url = https://github.com/OpenAgInitiative/openag_peripheral.git
+[submodule "examples/lib/OneWire"]
+	path = examples/lib/OneWire
+	url = https://github.com/OpenAgInitiative/OneWire.git
