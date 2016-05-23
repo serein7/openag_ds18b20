@@ -7,6 +7,7 @@
 Ds18b20::Ds18b20(String id, String* parameters) : Peripheral(id, parameters){
   this->id = id;
   _temperature_pin = parameters[0].toInt();
+  _temperature_key = "temperature";
 }
 
 Ds18b20::~Ds18b20(){}
@@ -15,11 +16,11 @@ void Ds18b20::begin() {
 
   _ds = new OneWire(_temperature_pin); // enable OneWire port
   _time_of_last_reading = 0; // initialize time of last reading
-  _temperature_message = getErrorMessage(TEMPERATURE_KEY); // initialize message
+  _temperature_message = getErrorMessage(_temperature_key); // initialize message
 }
 
 String Ds18b20::get(String key) {
-  if (key == String(TEMPERATURE_KEY)) {
+  if (key == String(_temperature_key)) {
     readData();
     return getTemperature();
   }
@@ -31,7 +32,7 @@ String Ds18b20::set(String key, String value) {
 }
 
 String Ds18b20::getTemperature(){
-  if (millis() - _time_of_last_reading > MIN_UPDATE_INTERVAL){ // can only read sensor so often
+  if (millis() - _time_of_last_reading > _min_update_interval){ // can only read sensor so often
     readData();
     _time_of_last_reading = millis();
   }
@@ -60,7 +61,7 @@ void Ds18b20::readData() {
   }
   _ds->reset_search();
 
-  // Check for failures
+  // Check for failure
   if (OneWire::crc8(temperature_address, 7) != temperature_address[7]) {
      is_good_reading = false; // invalid CRC
   }
@@ -76,10 +77,10 @@ void Ds18b20::readData() {
 
   // Update messages
   if (is_good_reading) {
-    _temperature_message = getMessage(TEMPERATURE_KEY, String(temperature, 1));
+    _temperature_message = getMessage(_temperature_key, String(temperature, 1));
   }
   else { // read failure
-    _temperature_message = getErrorMessage(TEMPERATURE_KEY);
+    _temperature_message = getErrorMessage(_temperature_key);
   }
 }
 

@@ -14,9 +14,6 @@
 #include <OneWire.h>
 #include <openag_peripheral.h>
 
-#define TEMPERATURE_KEY "temperature"
-#define MIN_UPDATE_INTERVAL 1000
-
 /**
  * \brief Sensor module for temperature
  */
@@ -42,6 +39,8 @@ class Ds18b20 : public Peripheral {
 
     // Private Variables
     uint32_t _time_of_last_reading;
+    const static uint32_t _min_update_interval = 1000;
+    String _temperature_key;
     int _temperature_pin;
     String _temperature_message;
     OneWire *_ds;
