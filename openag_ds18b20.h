@@ -12,38 +12,29 @@
 #endif
 
 #include <OneWire.h>
-#include <openag_peripheral.h>
+#include <DallasTemperature.h>
+#include <openag_module.h>
+#include <std_msgs/Float32.h>
 
 /**
  * \brief Sensor module for temperature
  */
-class Ds18b20 : public Peripheral {
+class Ds18b20 : public Module {
   public:
-    // Public Functions
-    Ds18b20(String id, String* parameters);
-    ~Ds18b20();
+    Ds18b20(int pin);
     void begin();
-    String get(String key);
-    String set(String key, String value);
-
-    // Public Variables
-    String id;
-    float temperature; // degrees C
+    void update();
+    bool get_temperature(std_msgs::Float32 &msg);
 
   private:
-    // Private Functions
-    String getTemperature();
-    void readData();
-    String getMessage(String key, String value);
-    String getErrorMessage(String key);
-
-    // Private Variables
-    uint32_t _time_of_last_reading;
-    const static uint32_t _min_update_interval = 1000;
-    String _temperature_key;
-    int _temperature_pin;
-    String _temperature_message;
-    OneWire *_ds;
+    OneWire _oneWire;
+    DeviceAddress _address;
+    DallasTemperature _sensors;
+    bool _send_temperature;
+    float _temperature;
+    uint32_t _time_of_last_query;
+    bool _waiting_for_conversion;
+    const static uint32_t _min_update_interval = 2000;
 };
 
 #endif
