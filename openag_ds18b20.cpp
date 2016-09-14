@@ -23,6 +23,7 @@ void Ds18b20::begin() {
 
 void Ds18b20::update() {
   if (_waiting_for_conversion) {
+    delay(500);
     if (_sensors.isConversionComplete()) {
       status_level = OK;
       status_msg = "";
@@ -37,7 +38,6 @@ void Ds18b20::update() {
   }
   if (millis() - _time_of_last_query > _min_update_interval) {
     _sensors.requestTemperatures();
-    delay(500);
     _waiting_for_conversion = true;
     _time_of_last_query = millis();
   }
