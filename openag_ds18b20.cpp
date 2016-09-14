@@ -23,7 +23,7 @@ void Ds18b20::begin() {
 
 void Ds18b20::update() {
   if (_waiting_for_conversion) {
-    delay(400);
+    delay(300);
     if (_sensors.isConversionComplete()) {
       status_level = OK;
       status_msg = "";
