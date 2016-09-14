@@ -23,7 +23,7 @@ void Ds18b20::begin() {
 
 void Ds18b20::update() {
   if (_waiting_for_conversion) {
-    if (millis() - _time_of_last_query > 500 && _sensors.isConversionComplete()) {
+    if (millis() - _time_of_last_query > 600 && _sensors.isConversionComplete()) {
       status_level = OK;
       status_msg = "";
       _waiting_for_conversion = false;
