@@ -27,6 +27,7 @@ void Ds18b20::update() {
       status_level = OK;
       status_msg = "";
       _waiting_for_conversion = false;
+      delay(500);
       _temperature = _sensors.getTempC(_address);
       _send_temperature = true;
     }
